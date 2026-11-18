@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>School Charity Silent Auction | Enishi</title>
+
+  <style>
+    :root {
+      --navy: #172b4d;
+      --navy-dark: #0f1e36;
+      --navy-light: #2c4770;
+      --gold: #f4c66a;
+      --gold-dark: #d9a74a;
+      --gold-soft: #fff8e7;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --text-muted: #526077;
+      --border: #e2e8f0;
+      --success-bg: #ecfdf5;
+      --success-text: #065f46;
+      --radius: 14px;
+      --shadow: 0 6px 20px rgba(23, 43, 77, 0.07);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* Sticky Header & Responsive Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(23, 43, 77, 0.96);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      color: white;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .header-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .site-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .title-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 40px;
+      align-items: center;
+      gap: 6px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    nav a {
+      color: rgba(255, 255, 255, 0.92);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--gold);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #233e6b 55%, var(--navy-light) 100%);
+      color: white;
+      text-align: center;
+      padding: clamp(44px, 7vw, 76px) 20px clamp(40px, 6vw, 64px);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(244, 198, 106, 0.18);
+      color: var(--gold);
+      border: 1px solid rgba(244, 198, 106, 0.4);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.35rem);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      max-width: 600px;
+      margin: 0 auto 26px;
+      font-size: clamp(0.98rem, 2vw, 1.12rem);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 0 8px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gold);
+      color: var(--navy-dark);
+      padding: 14px 28px;
+      min-height: 48px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: transform 0.15s, background 0.2s;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    }
+
+    .button:hover {
+      background: #f7d283;
+      transform: translateY(-1px);
+    }
+
+    /* Key Event Info Bar */
+    .event-bar {
+      max-width: 860px;
+      margin: 34px auto 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 16px;
+      border-radius: var(--radius);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+
+    .event-stat {
+      text-align: center;
+      padding: 8px 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    .event-stat-label {
+      display: block;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .event-stat-value {
+      font-size: clamp(0.95rem, 1.8vw, 1.08rem);
+      font-weight: 700;
+      color: white;
+    }
+
+    /* Main Content Layout */
+    main {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: clamp(32px, 5vw, 56px) 20px;
+    }
+
+    section {
+      margin-bottom: clamp(44px, 6vw, 64px);
+      scroll-margin-top: 76px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .section-header h2 {
+      color: var(--navy);
+      font-size: clamp(1.45rem, 3vw, 1.85rem);
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    /* Responsive Grids for Computer, iPad, and Mobile */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--surface);
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      height: 100%;
+    }
+
+    .card h3 {
+      color: var(--navy);
+      font-size: 1.12rem;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .number {
+      background: var(--navy);
+      color: var(--gold);
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1rem;
+      margin-bottom: 14px;
+    }
+
+    /* Callout / Highlight Box */
+    .highlight {
+      background: var(--gold-soft);
+      border-left: 4px solid var(--gold-dark);
+      padding: 16px 20px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-top: 20px;
+      color: var(--navy);
+      font-size: 0.95rem;
+    }
+
+    /* Example Bidding Sheet */
+    .sheet-wrapper {
+      background: var(--surface);
+      border: 2px solid var(--navy);
+      border-radius: var(--radius);
+      max-width: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .sheet-header {
+      background: var(--navy);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sheet-header h3 {
+      font-size: 1.08rem;
+      color: white;
+    }
+
+    .sheet-tag {
+      background: var(--gold);
+      color: var(--navy-dark);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+
+    .sheet-body {
+      padding: 20px;
+    }
+
+    .sheet-rules {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      background: var(--bg);
+      padding: 14px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+    }
+
+    .sheet-rule-item span {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .sheet-rule-item strong {
+      font-size: 1.08rem;
+      color: var(--navy);
+    }
+
+    .sheet-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+    }
+
+    .sheet-table th,
+    .sheet-table td {
+      padding: 10px 8px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sheet-table th:last-child,
+    .sheet-table td:last-child {
+      text-align: right;
+    }
+
+    .sheet-table th {
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sheet-table tr.active-row {
+      background: var(--success-bg);
+      color: var(--success-text);
+      font-weight: 600;
+    }
+
+    /* Interactive Practice Form inside Sheet */
+    .practice-box {
+      margin-top: 16px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: 10px;
+    }
+
+    .practice-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .practice-form {
+      display: flex;
+      gap: 8px;
+    }
+
+    .practice-form input {
+      font-size: 16px;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      min-height: 44px;
+    }
+
+    .practice-form input:focus {
+      border-color: var(--navy);
+    }
+
+    .practice-form input[type="text"] {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .practice-form input[type="number"] {
+      width: 120px;
+    }
+
+    .practice-form button {
+      background: var(--navy);
+      color: var(--gold);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      min-height: 44px;
+      white-space: nowrap;
+    }
+
+    .practice-form button:hover {
+      background: var(--navy-light);
+    }
+
+    .sheet-caption {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Rules Checklist */
+    .rules-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .rules-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--bg);
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+
+    .rules-list li::before {
+      content: "•";
+      display: inline-grid;
+      place-items: center;
+      min-width: 24px;
+      height: 24px;
+      background: var(--navy);
+      color: var(--gold);
+      border-radius: 50%;
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Contact Banner */
+    .contact {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: clamp(28px, 5vw, 44px) 20px;
+      border-radius: var(--radius);
+      margin-bottom: 0;
+    }
+
+    .contact h2 {
+      color: var(--gold);
+      font-size: clamp(1.35rem, 3vw, 1.7rem);
+      margin-bottom: 10px;
+    }
+
+    .contact p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 520px;
+      margin: 0 auto 6px;
+    }
+
+    .contact-box {
+      display: inline-block;
+      margin-top: 18px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+
+    .contact-box a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact-box a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255, 255, 255, 0.75);
+      padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+      text-align: center;
+      font-size: 0.88rem;
+    }
+
+    /* =========================================
+       iPad / Tablet Breakpoint (<= 960px)
+       ========================================= */
+    @media (max-width: 960px) {
+      .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .header-inner {
+        padding: 12px 16px;
+      }
+
+      nav a {
+        padding: 7px 10px;
+        font-size: 0.88rem;
+      }
+    }
+
+    /* =========================================
+       Mobile Phone Breakpoint (<= 680px)
+       ========================================= */
+    @media (max-width: 680px) {
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .header-inner {
+        flex-wrap: wrap;
+      }
+
+      nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        background: rgba(15, 30, 54, 0.98);
+        padding: 10px;
+        border-radius: 10px;
+        margin-top: 6px;
+      }
+
+      nav.open {
+        display: flex;
+      }
+
+      nav a {
+        padding: 12px 14px;
+        font-size: 0.95rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      nav a:last-child {
+        border-bottom: none;
+      }
+
+      .event-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .rules-list {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .sheet-body {
+        padding: 16px;
+      }
+
+      .practice-form {
+        flex-direction: column;
+      }
+
+      .practice-form input[type="number"],
+      .practice-form button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body id="top">
+
+  <header>
+    <div class="header-inner">
+      <a href="#top" class="site-title">
+        <span class="title-dot"></span>
+        School Charity Silent Auction
+      </a>
+
+      <button class="menu-toggle" id="menu-btn" aria-expanded="false" aria-controls="main-nav" onclick="toggleMobileMenu()">
+        <span id="menu-label">Menu</span>
+      </button>
+
+      <nav id="main-nav" aria-label="Main navigation">
+        <a href="#about" onclick="closeMobileMenu()">About</a>
+        <a href="#bid-guide" onclick="closeMobileMenu()">How to Bid</a>
+        <a href="#example" onclick="closeMobileMenu()">Sample Sheet</a>
+        <a href="#rules" onclick="closeMobileMenu()">Rules</a>
+        <a href="#winners" onclick="closeMobileMenu()">Winners</a>
+        <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <span class="hero-badge">Give • Bid • Make a Difference</span>
+    <h1>School Charity Silent Auction</h1>
+    <p class="hero-subtitle">
+      Discover amazing items, place your bids on paper sheets, and support a meaningful cause. Every bid makes a difference!
+    </p>
+    <a class="button" href="#bid-guide">Learn How to Bid</a>
+
+    <div class="event-bar" role="region" aria-label="Event Details">
+      <div class="event-stat">
+        <span class="event-stat-label">Location</span>
+        <span class="event-stat-value">Enishi</span>
+      </div>
+      <div class="event-stat">
+        <span class="event-stat-label">Event Date</span>
+        <span class="event-stat-value">Dec 11</span>
+      </div>
+      <div class="event-stat">
+        <span class="event-stat-label">Bidding Time</span>
+        <span class="event-stat-value">1 Hr 30 Mins</span>
+      </div>
+      <div class="event-stat">
+        <span class="event-stat-label">Payment</span>
+        <span class="event-stat-value">Cash Only</span>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-header">
+        <h2>What Is a Silent Auction?</h2>
+        <p>How a silent auction works and who your bids support</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Silent Paper Bidding</h3>
+          <p>
+            A silent auction is an event where people bid on items by writing their offers on paper bidding sheets. There is no need to shout out bids. After bidding closes, the highest valid bidder wins each item according to the event rules.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Our Charity: Second Harvest Nagoya</h3>
+          <p>
+            <strong>Second Harvest Nagoya</strong> helps provide food to people who need it. Our event will directly support this cause—every bid helps make a real difference in our community.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW TO BID -->
+    <section id="bid-guide">
+      <div class="section-header">
+        <h2>How to Place Your Bid</h2>
+        <p>Follow these 4 simple steps during the event</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card">
+          <div class="number">1</div>
+          <h3>Browse the Items</h3>
+          <p>Look at the available items and read their descriptions.</p>
+        </div>
+
+        <div class="card">
+          <div class="number">2</div>
+          <h3>Choose an Item</h3>
+          <p>Find something you would like to win and locate its bidding sheet.</p>
+        </div>
+
+        <div class="card">
+          <div class="number">3</div>
+          <h3>Write Your Bid</h3>
+          <p>Write your name or bidder number and your bid amount clearly.</p>
+        </div>
+
+        <div class="card">
+          <div class="number">4</div>
+          <h3>Wait for Results</h3>
+          <p>After bidding closes, the organizers will check the sheets and announce the winners.</p>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <strong>Bidding Tip:</strong> Check the current highest bid and follow the minimum bidding increase shown on the sheet.
+      </div>
+    </section>
+
+    <!-- EXAMPLE BIDDING SHEET -->
+    <section id="example">
+      <div class="section-header">
+        <h2>Example Bidding Sheet</h2>
+        <p>Here is how the paper bidding sheet works for each item</p>
+      </div>
+
+      <div class="sheet-wrapper">
+        <div class="sheet-header">
+          <h3>Example Item</h3>
+          <span class="sheet-tag">Interactive Sample</span>
+        </div>
+
+        <div class="sheet-body">
+          <div class="sheet-rules">
+            <div class="sheet-rule-item">
+              <span>Starting Bid</span>
+              <strong>¥500</strong>
+            </div>
+            <div class="sheet-rule-item">
+              <span>Minimum Increase</span>
+              <strong>+ ¥100</strong>
+            </div>
+          </div>
+
+          <table class="sheet-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name / Bidder Number</th>
+                <th>Bid Amount</th>
+              </tr>
+            </thead>
+            <tbody id="sheet-rows">
+              <tr>
+                <td>1</td>
+                <td>Bidder #04</td>
+                <td>¥500</td>
+              </tr>
+              <tr class="active-row">
+                <td>2</td>
+                <td>Bidder #19 (Current Highest)</td>
+                <td>¥800</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="practice-box">
+            <div class="practice-title">
+              Next Valid Bid: <span id="next-valid-text" style="color: #065f46;">¥900 or more</span>
+            </div>
+            <div class="practice-form">
+              <input type="text" id="bid-name" placeholder="Your Name / Bidder No.">
+              <input type="number" id="bid-amount" step="100" placeholder="¥900">
+              <button type="button" onclick="addSampleBid()">Try Bid</button>
+            </div>
+            <p id="bid-msg" style="font-size: 0.82rem; margin-top: 8px; display: none;"></p>
+          </div>
+        </div>
+      </div>
+
+      <p class="sheet-caption">
+        This is an example. Follow the actual paper bidding sheet for each item.
+      </p>
+    </section>
+
+    <!-- RULES -->
+    <section id="rules">
+      <div class="section-header">
+        <h2>Auction Rules</h2>
+        <p>Please keep the auction fair and enjoyable for everyone</p>
+      </div>
+
+      <div class="card">
+        <ul class="rules-list">
+          <li>Only bid an amount you are willing and able to pay if you win.</li>
+          <li>Follow each item's starting bid and minimum increase.</li>
+          <li>Write your bid clearly and check it before submitting.</li>
+          <li>Never change or interfere with another person's bid.</li>
+          <li>Submit your bid before the official closing time.</li>
+          <li>Be respectful of everyone and all auction items.</li>
+          <li>Ask an organizer or supervising teacher if you need help.</li>
+          <li>The organizers will resolve ties and unclear bids according to the event policy.</li>
+        </ul>
+      </div>
+
+      <div class="highlight">
+        <strong>Important:</strong> Bidding lasts 1 hour and 30 minutes. Stop bidding when the organizers announce that the auction has closed.
+      </div>
+    </section>
+
+    <!-- WINNERS -->
+    <section id="winners">
+      <div class="section-header">
+        <h2>What Happens If You Win?</h2>
+        <p>How to pay for and collect your item after the auction ends</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="number">1</div>
+          <h3>Check the Results</h3>
+          <p>Wait for the organizers to confirm the winning bids.</p>
+        </div>
+
+        <div class="card">
+          <div class="number">2</div>
+          <h3>Make Payment</h3>
+          <p>Follow the payment instructions provided by the organizers.</p>
+        </div>
+
+        <div class="card">
+          <div class="number">3</div>
+          <h3>Collect Your Item</h3>
+          <p>Collect your item at the announced time and place.</p>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <strong>Payment and Collection:</strong> Payment Methods: <strong>Cash</strong>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="section-header">
+        <h2>Frequently Asked Questions</h2>
+        <p>Quick answers to common questions</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Can I bid on multiple items?</h3>
+          <p>Yes. Remember that you may win more than one item.</p>
+        </div>
+
+        <div class="card">
+          <h3>Can I change my bid?</h3>
+          <p>Ask an organizer. Changes must follow the event policy.</p>
+        </div>
+
+        <div class="card">
+          <h3>How will I know if I won?</h3>
+          <p>Winners will be announced by the event organizers.</p>
+        </div>
+
+        <div class="card">
+          <h3>Where does the money go?</h3>
+          <p>The funds raised will support Second Harvest Nagoya and its food support activities.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact">
+      <h2>Every Bid Makes a Difference</h2>
+      <p>Thank you for supporting our school charity auction!</p>
+      <p>Together, we can help make a positive difference.</p>
+
+      <div class="contact-box">
+        <strong>Questions?</strong> Contact: Staff or Student Council<br>
+        Email: <a href="mailto:alex.jones@enishi.ac.jp">alex.jones@enishi.ac.jp</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><strong>© 2026 School Charity Silent Auction</strong></p>
+    <p>Give generously. Bid fairly. Make a difference.</p>
+  </footer>
+
+  <script>
+    function toggleMobileMenu() {
+      const nav = document.getElementById('main-nav');
+      const btn = document.getElementById('menu-btn');
+      const label = document.getElementById('menu-label');
+      const isOpen = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen);
+      label.textContent = isOpen ? 'Close' : 'Menu';
+    }
+
+    function closeMobileMenu() {
+      const nav = document.getElementById('main-nav');
+      const btn = document.getElementById('menu-btn');
+      const label = document.getElementById('menu-label');
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      label.textContent = 'Menu';
+    }
+
+    let highestBid = 800;
+    let rowCount = 2;
+
+    function addSampleBid() {
+      const nameEl = document.getElementById('bid-name');
+      const amountEl = document.getElementById('bid-amount');
+      const msgEl = document.getElementById('bid-msg');
+      const rowsEl = document.getElementById('sheet-rows');
+      const nextText = document.getElementById('next-valid-text');
+
+      const name = nameEl.value.trim() || 'Bidder #' + (20 + rowCount);
+      const amount = parseInt(amountEl.value, 10);
+      const minValid = highestBid + 100;
+
+      msgEl.style.display = 'block';
+
+      if (isNaN(amount) || amount < minValid) {
+        msgEl.style.color = '#dc2626';
+        msgEl.textContent = 'Bid must be at least ¥' + minValid + ' (Current highest ¥' + highestBid + ' + ¥100 minimum increase).';
+        return;
+      }
+
+      Array.from(rowsEl.querySelectorAll('tr')).forEach(r => r.classList.remove('active-row'));
+      rowCount++;
+      highestBid = amount;
+
+      const tr = document.createElement('tr');
+      tr.className = 'active-row';
+      tr.innerHTML = '<td>' + rowCount + '</td><td>' + name.replace(/</g, '&lt;') + ' (Current Highest)</td><td>¥' + amount + '</td>';
+      rowsEl.appendChild(tr);
+
+      nextText.textContent = '¥' + (highestBid + 100) + ' or more';
+      amountEl.value = '';
+      amountEl.placeholder = '¥' + (highestBid + 100);
+      msgEl.style.color = '#065f46';
+      msgEl.textContent = 'Practice bid of ¥' + amount + ' added.';
+    }
+  </script>
+</body>
+</html>
